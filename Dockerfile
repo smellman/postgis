@@ -1,6 +1,6 @@
 FROM postgres:11
 MAINTAINER "Lukas Martinelli <me@lukasmartinelli.ch>"
-ENV POSTGIS_VERSION=2.5.1 \
+ENV POSTGIS_VERSION=2.4.7 \
     GEOS_VERSION=3.7.1 \
     PROTOBUF_VERSION=3.6.1 \
     PROTOBUF_C_VERSION=1.3.1 \
