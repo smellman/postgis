@@ -1,6 +1,6 @@
 FROM postgres:11
 MAINTAINER "Lukas Martinelli <me@lukasmartinelli.ch>"
-ENV POSTGIS_VERSION=2.5.1 \
+ENV POSTGIS_VERSION=trunk \
     GEOS_VERSION=3.7.1 \
     PROTOBUF_VERSION=3.6.1 \
     PROTOBUF_C_VERSION=1.3.1 \
@@ -63,13 +63,15 @@ RUN apt-get -qq -y update \
  && rm -rf /opt/protobuf-c-$PROTOBUF_C_VERSION \
 ## Postgis
  && cd /opt/ \
- && curl -L https://download.osgeo.org/postgis/source/postgis-$POSTGIS_VERSION.tar.gz | tar xvz && cd postgis-$POSTGIS_VERSION \
+ && git clone -b svn-trunk https://github.com/postgis/postgis.git \
+ && cd postgis \
+ && git reset --hard 7f6f24b99786bd543b4b8dd829f7f9ad2adcacd3 \
  && ./autogen.sh \
- && ./configure CFLAGS="-O0 -Wall" \
+ && ./configure CFLAGS="-O0 -Wall" --with-wagyu \
  && make \
  && make install \
  && ldconfig \
- && rm -rf /opt/postgis-$POSTGIS_VERSION \
+ && rm -rf /opt/postgis \
 ## UTF8Proc
  && cd /opt/ \
  && git clone https://github.com/JuliaLang/utf8proc.git \
